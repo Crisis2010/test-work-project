@@ -147,21 +147,26 @@ const Preview = React.memo<PreviewProps>(({ image, onReset }) => {
   return (
     <div className={styles.container}>
       <img className={styles.img} src={image} alt="preview" ref={imageRef} />
-      {showPoints && (
-        <div
-          id="point-container"
-          ref={imageWrapRef}
-          onClick={e => isEdit && onAddClick(e)}
-          className={styles.markerContainer}
-          style={{ left: calculatedPosition.left, width: calculatedPosition.width, height: calculatedPosition.height }}
-        >
-          {anchors.map(anchor => (
-            <Anchor key={anchor.id} className={styles.anchor} position={{ left: anchor.left, top: anchor.top }}>
-              {(ref: any) => <Point index={anchor.index} onClick={() => onPointClick(anchor.id)} isOpen={anchor.isOpen} ref={ref} />}
-            </Anchor>
-          ))}
-        </div>
-      )}
+
+      <div
+        id="point-container"
+        ref={imageWrapRef}
+        onClick={e => isEdit && onAddClick(e)}
+        className={styles.markerContainer}
+        style={{
+          display: showPoints ? 'block' : 'none',
+          left: calculatedPosition.left,
+          width: calculatedPosition.width,
+          height: calculatedPosition.height,
+        }}
+      >
+        {anchors.map(anchor => (
+          <Anchor key={anchor.id} className={styles.anchor} position={{ left: anchor.left, top: anchor.top }}>
+            {(ref: any) => <Point index={anchor.index} onClick={() => onPointClick(anchor.id)} isOpen={anchor.isOpen} ref={ref} />}
+          </Anchor>
+        ))}
+      </div>
+
       <div className={styles.menuWrapper}>
         <div className={styles.menu}>
           <button type="button" className={cx(styles.menuButton, { [styles.active]: isEdit })} onClick={onAdd}>
